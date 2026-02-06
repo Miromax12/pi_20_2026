@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Воркбук Практикум-Інтенсив 2.0</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&display=swap" rel="stylesheet">
+    <style>
+        /* --- ЭКРАННЫЕ СТИЛИ (ТЕМНАЯ ТЕМА) --- */
+        :root {
+            --primary: #6366f1;
+            --bg-dark: #0f0f1a;
+            --bg-card: #1a1a2e;
+            --text-primary: #ffffff;
+            --gradient-1: linear-gradient(135deg, #6366f1 0%, #06b6d4 100%);
+            --accent: #06b6d4;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+            padding: 20px;
+            margin: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Карточки */
+        .wb-page {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 40px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .wb-section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 24px;
+            color: #818cf8;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 15px;
+        }
+
+        /* Инпуты */
+        input, textarea {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 12px;
+            border-radius: 8px;
+            color: white;
+            font-family: inherit;
+            margin-top: 8px;
+            font-size: 15px;
+            box-sizing: border-box; /* Важно для отступов */
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        textarea { min-height: 100px; resize: vertical; }
+
+        label {
+            display: block;
+            margin-top: 24px;
+            font-weight: 500;
+            color: #e4e4e7;
+        }
+
+        .wb-page label:first-of-type { margin-top: 0; }
+
+        /* Кнопки пола */
+        .wb-gender { display: flex; gap: 10px; margin-bottom: 20px; }
+        .wb-gender-btn {
+            flex: 1; padding: 14px; background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1); color: #a1a1aa;
+            cursor: pointer; border-radius: 8px; transition: all 0.3s;
+            font-weight: 600; text-align: center;
+        }
+        .wb-gender-btn:hover { background: rgba(255,255,255,0.1); }
+        .wb-gender-btn.active { background: rgba(99, 102, 241, 0.2); border-color: var(--primary); color: #818cf8; }
+
+        /* Чеклист */
+        .wb-checklist-group { margin-bottom: 20px; }
+        .wb-checklist-title { font-size: 14px; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; font-weight: 700; letter-spacing: 0.5px; }
+        .wb-checklist-item {
+            display: flex; align-items: center; gap: 12px; margin-bottom: 12px; cursor: pointer;
+            padding: 8px; border-radius: 6px; transition: background 0.2s;
+        }
+        .wb-checklist-item:hover { background: rgba(255,255,255,0.03); }
+        .wb-checkbox {
+            width: 22px; height: 22px; border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 6px; display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0; transition: all 0.2s;
+        }
+        .wb-checklist-item.checked .wb-checkbox { background: var(--primary); border-color: var(--primary); }
+        .wb-checklist-item.checked .wb-checkbox::after { content: '✓'; font-size: 14px; color: white; font-weight: bold; }
+        .wb-checklist-item.checked span { color: white; }
+        .wb-checklist-item span { color: #a1a1aa; }
+
+        /* Кнопка печати */
+        .print-btn {
+            display: block; width: 100%; max-width: 320px; margin: 40px auto 60px;
+            padding: 20px; font-size: 18px; font-weight: bold;
+            background: var(--gradient-1); border: none; border-radius: 50px;
+            color: white; cursor: pointer; box-shadow: 0 0 30px rgba(99, 102, 241, 0.3);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .print-btn:hover { transform: translateY(-3px); box-shadow: 0 0 50px rgba(99, 102, 241, 0.5); }
+
+        /* Подзаголовки на обложке */
+        .cover-subtitle { font-size: 1.2rem; color: #a1a1aa; margin-bottom: 5px; }
+        .cover-date { font-size: 1rem; color: #818cf8; margin-bottom: 30px; font-weight: 600; }
+    </style>
+</head>
+<body>
+
+    <!-- ИНТЕРФЕЙС ВВОДА -->
+    <div class="container">
+
+        <!-- Обложка -->
+        <div class="wb-page" style="text-align:center; padding-top:60px; padding-bottom:60px;">
+            <div style="font-size: 2.5rem; font-weight: 800; text-transform: uppercase; margin-bottom: 10px;">BRIONEL</div>
+            <h1 style="margin-bottom: 10px;">Практикум-Інтенсив 2.0</h1>
+            <div class="cover-subtitle">Формування наміру на 3 місяці</div>
+            <div class="cover-subtitle">Мій особистий воркбук</div>
+            <div class="cover-date">Дата початку: 04 лютого 2026</div>
+
+            <input type="text" id="inpName" placeholder="Введіть ваше ім'я та прізвище" style="text-align:center; font-size:1.2rem; margin-top:30px; max-width: 400px;">
+        </div>
+
+        <!-- Выбор пола -->
+        <div class="wb-page">
+            <div class="wb-section-title">Оберіть стать (для правильних закінчень)</div>
+            <div class="wb-gender">
+                <div class="wb-gender-btn active" onclick="setGender('M', this)">Чоловіча (М)</div>
+                <div class="wb-gender-btn" onclick="setGender('F', this)">Жіноча (Ж)</div>
+            </div>
+        </div>
+
+        <!-- Вопросы -->
+        <div class="wb-page">
+            <div class="wb-section-title">1. Головні питання</div>
+            <label>📍 ЯКИЙ МІЙ НАМІР на 3 місяці?</label>
+            <textarea id="q1" placeholder="Опишіть ваш намір..."></textarea>
+
+            <label>💡 ДЛЯ ЧОГО Я В ПРОГРАМІ?</label>
+            <textarea id="q2" placeholder="Чесна відповідь собі..."></textarea>
+        </div>
+
+        <div class="wb-page">
+            <div class="wb-section-title">2. Аналіз росту</div>
+            <label>1. Що ви готові перестати робити, щоб звільнити час для росту?</label>
+            <textarea id="q3" placeholder="Ваша відповідь..."></textarea>
+
+            <label>2. Перелічіть 5 ключових факторів, які впливають на ваш ріст щодня:</label>
+            <textarea id="q4" placeholder="1.
+2.
+3.
+4.
+5."></textarea>
+
+            <label>3. Що я ПЕРЕСТАНУ робити? (Мінімум 5 пунктів — що забирає час і не веде до мети)</label>
+            <textarea id="q5" placeholder="1.
+2.
+3.
+4.
+5."></textarea>
+
+            <label>4. Що я ПОЧНУ робити? (Мінімум 5 пунктів — нові дії для росту)</label>
+            <textarea id="q6" placeholder="1.
+2.
+3.
+4.
+5."></textarea>
+
+            <label>5. За рахунок чого я буду знаходити час для нових дій, для свого росту та росту бізнесу:</label>
+            <textarea id="q_time_source" placeholder="Ваша відповідь..."></textarea>
+
+            <label>6. Скільки годин на день я <span class="gender-ready">готовий</span> інвестувати в бізнес:</label>
+            <input type="text" id="q_hours" placeholder="Наприклад: 4 години" style="max-width: 200px;">
+        </div>
+
+        <!-- План контента -->
+        <div class="wb-page">
+            <div class="wb-section-title">3. План контенту (INSTAGRAM)</div>
+            <div style="display:grid; grid-template-columns: 1.5fr 1fr 1fr; gap:10px; text-align:center; margin-bottom:10px; font-weight:600; color:#818cf8;">
+                <div style="text-align:left; padding-left:12px;">ТИП</div><div>ЗАРАЗ</div><div>ПЛАН</div>
+            </div>
+
+            <div style="display:grid; grid-template-columns: 1.5fr 1fr 1fr; gap:10px; align-items:center; margin-bottom:10px;">
+                <div style="padding-left:12px; font-weight:500;">РІЛС</div>
+                <input type="text" id="reels_now" placeholder="0" style="margin:0; text-align:center;">
+                <input type="text" id="reels_plan" placeholder="0" style="margin:0; text-align:center;">
+            </div>
+            <div style="display:grid; grid-template-columns: 1.5fr 1fr 1fr; gap:10px; align-items:center; margin-bottom:10px;">
+                <div style="padding-left:12px; font-weight:500;">СТОРІС</div>
+                <input type="text" id="stories_now" placeholder="0" style="margin:0; text-align:center;">
+                <input type="text" id="stories_plan" placeholder="0" style="margin:0; text-align:center;">
+            </div>
+            <div style="display:grid; grid-template-columns: 1.5fr 1fr 1fr; gap:10px; align-items:center;">
+                <div style="padding-left:12px; font-weight:500;">ПОСТ</div>
+                <input type="text" id="post_now" placeholder="0" style="margin:0; text-align:center;">
+                <input type="text" id="post_plan" placeholder="0" style="margin:0; text-align:center;">
+            </div>
+        </div>
+
+        <!-- Чеклист -->
+        <div class="wb-page">
+            <div class="wb-section-title">4. Чек-лист домашнього завдання</div>
+
+            <div class="wb-checklist-group">
+                <div class="wb-checklist-title">ТЕХНІЧНІ ЗАВДАННЯ:</div>
+                <div class="wb-checklist-item" onclick="toggleCheck(this)" id="chk_tech1">
+                    <div class="wb-checkbox"></div>
+                    <span><span class="gender-created">Створив</span> акаунт у Claude</span>
+                </div>
+                <div class="wb-checklist-item" onclick="toggleCheck(this)" id="chk_tech2">
+                    <div class="wb-checkbox"></div>
+                    <span><span class="gender-paid">Оплатив</span> підписку $20/місяць</span>
+                </div>
+                <div class="wb-checklist-item" onclick="toggleCheck(this)" id="chk_tech3">
+                    <div class="wb-checkbox"></div>
+                    <span><span class="gender-installed">Встановив</span> бот-інтерв'ювер</span>
+                </div>
+                <div class="wb-checklist-item" onclick="toggleCheck(this)" id="chk_tech4">
+                    <div class="wb-checkbox"></div>
+                    <span><span class="gender-started">ПОЧАВ</span> робити розпакування</span>
+                </div>
+                <div class="wb-checklist-item" onclick="toggleCheck(this)" id="chk_tech5">
+                    <div class="wb-checkbox"></div>
+                    <span><span class="gender-created">Створив</span> окремий блокнот для банку ідей</span>
+                </div>
+            </div>
+
+            <div class="wb-checklist-group">
+                <div class="wb-checklist-title">ДОДАТКОВО (якщо є час):</div>
+                <div class="wb-checklist-item" onclick="toggleCheck(this)" id="chk_add1">
+                    <div class="wb-checkbox"></div>
+                    <span><span class="gender-registered">Зареєструвався</span> в Instagram, Youtube, TikTok</span>
+                </div>
+                <div class="wb-checklist-item" onclick="toggleCheck(this)" id="chk_add2">
+                    <div class="wb-checkbox"></div>
+                    <span><span class="gender-learned">Навчився</span> робити Stories</span>
+                </div>
+                <div class="wb-checklist-item" onclick="toggleCheck(this)" id="chk_add3">
+                    <div class="wb-checkbox"></div>
+                    <span><span class="gender-tested">Протестував</span> наліпки, опитування</span>
+                </div>
+                <div class="wb-checklist-item" onclick="toggleCheck(this)" id="chk_add4">
+                    <div class="wb-checkbox"></div>
+                    <span><span class="gender-done">Зробив</span> кілька тестових публікацій</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Обязательство -->
+        <div class="wb-page">
+            <div class="wb-section-title">5. Фінальне зобов'язання</div>
+            <p style="margin-bottom:20px; font-size:1.1rem;">Я, <span id="commit_name_display" style="color: #818cf8; font-weight:bold;">[Ваше ім'я]</span>, приймаю на себе зобов'язання:</p>
+
+            <div style="background: rgba(99, 102, 241, 0.1); border: 1px solid rgba(99, 102, 241, 0.3); padding: 24px; border-radius: 12px;">
+                <div style="font-weight: 700; color: var(--accent); margin-bottom: 16px; text-transform:uppercase; font-size:0.9rem;">За наступні 90 днів я:</div>
+
+                <div style="display:grid; gap:12px;">
+                    <div>Зроблю <input type="text" id="c_content" placeholder="..." style="width:80px; display:inline-block; margin:0; padding:6px; text-align:center;"> одиниць контенту</div>
+                    <div>Проведу <input type="text" id="c_meet" placeholder="..." style="width:80px; display:inline-block; margin:0; padding:6px; text-align:center;"> зустрічей</div>
+                    <div>Підпишу <input type="text" id="c_partners" placeholder="..." style="width:80px; display:inline-block; margin:0; padding:6px; text-align:center;"> нових партнерів</div>
+                    <div>Вийду на чек $<input type="text" id="c_check" placeholder="..." style="width:100px; display:inline-block; margin:0; padding:6px; text-align:center;"></div>
+                </div>
+
+                <div style="margin-top:24px;">
+                    <label style="font-size:0.9rem; margin-bottom:5px;">Дата підписання:</label>
+                    <input type="date" id="c_date" style="max-width:200px;">
+                </div>
+
+                <div style="margin-top:24px; font-size:0.9rem; color: #a1a1aa; font-style: italic;">
+                    Цей план — моя обіцянка самому собі. 90 днів пройдуть в будь-якому випадку — питання, як я їх використаю.
+                </div>
+            </div>
+        </div>
+
+        <button class="print-btn" onclick="openPrintWindow()">🖨️ РОЗДРУКУВАТИ / ЗБЕРЕГТИ PDF</button>
+    </div>
+
+    <script>
+        let gender = 'M';
+
+        // --- ЛОГИКА ГЕНДЕРА И ОКОНЧАНИЙ ---
+        const suffixes = {
+            'ready':      { M: 'готовий', F: 'готова' },
+            'created':    { M: 'Створив', F: 'Створила' },
+            'paid':       { M: 'Оплатив', F: 'Оплатила' },
+            'installed':  { M: 'Встановив', F: 'Встановила' },
+            'started':    { M: 'ПОЧАВ', F: 'ПОЧАЛА' },
+            'registered': { M: 'Зареєструвався', F: 'Зареєструвалася' },
+            'learned':    { M: 'Навчився', F: 'Навчилася' },
+            'tested':     { M: 'Протестував', F: 'Протестувала' },
+            'done':       { M: 'Зробив', F: 'Зробила' }
+        };
+
+        function setGender(g, btn) {
+            gender = g;
+            document.querySelectorAll('.wb-gender-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            updateSuffixes();
+        }
+
+        function updateSuffixes() {
+            for (const [key, values] of Object.entries(suffixes)) {
+                document.querySelectorAll(`.gender-${key}`).forEach(span => {
+                    span.textContent = values[gender];
+                });
+            }
+        }
+
+        // --- ЛОГИКА ЧЕКБОКСОВ ---
+        function toggleCheck(el) {
+            el.classList.toggle('checked');
+        }
+
+        // --- ЛОГИКА ИМЕНИ ---
+        document.getElementById('inpName').addEventListener('input', function() {
+            const val = this.value || '[Ваше ім\'я]';
+            document.getElementById('commit_name_display').textContent = val;
+        });
+
+        // Устанавливаем текущую дату по умолчанию
+        document.getElementById('c_date').valueAsDate = new Date();
+
+
+        // --- ЛОГИКА ПЕЧАТИ В НОВОМ ОКНЕ ---
+        function openPrintWindow() {
+            // 1. Собираем данные
+            const name = document.getElementById('inpName').value || '___';
+
+            // Вспомогательная функция для получения HTML чекбокса (галочка или пусто)
+            function getCheck(id) {
+                const el = document.getElementById(id);
+                const isChecked = el.classList.contains('checked');
+                // Используем символы для печати
+                return isChecked ? '☑' : '☐';
+            }
+
+            // Получаем текст лейбла чеклиста с учетом текущего гендера
+            function getCheckLabel(id) {
+                return document.getElementById(id).querySelector('span').innerText;
+            }
+
+            // Формируем HTML для нового окна
+            // Все стили для печати встроены прямо сюда для надежности
+            const printContent = `
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <title>Друк - Воркбук ${name}</title>
+                    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+                    <style>
+                        body {
+                            font-family: 'Merriweather', serif;
+                            color: #000;
+                            background: #fff;
+                            margin: 0;
+                            padding: 0;
+                        }
+                        .page-container {
+                            max-width: 800px;
+                            margin: 0 auto;
+                            padding: 40px 50px;
+                        }
+                        /* Полосы декора */
+                        .decor-bar { height: 10px; width: 100%; background: linear-gradient(90deg, #6366f1 0%, #06b6d4 100%); -webkit-print-color-adjust: exact; print-color-adjust: exact;}
+
+                        /* Типографика */
+                        h1 { font-family: 'Inter', sans-serif; font-size: 24px; text-transform: uppercase; margin: 0 0 5px 0; color: #333; }
+                        h2 { font-family: 'Inter', sans-serif; font-size: 18px; color: #4f46e5; border-bottom: 2px solid #eee; padding-bottom: 8px; margin-top: 30px; margin-bottom: 15px; text-transform: uppercase; }
+                        .subtitle { font-size: 14px; color: #666; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 2px; }
+
+                        /* Блоки вопросов */
+                        .q-block { margin-bottom: 20px; page-break-inside: avoid; }
+                        .q-label { font-weight: bold; font-size: 14px; margin-bottom: 6px; color: #222; font-family: 'Inter', sans-serif; }
+                        .q-answer {
+                            font-style: italic;
+                            background: #f4f4f5;
+                            padding: 10px 15px;
+                            border-radius: 4px;
+                            border-left: 3px solid #ccc;
+                            font-size: 14px;
+                            line-height: 1.5;
+                            white-space: pre-wrap; /* Сохраняет переносы строк */
+                        }
+
+                        /* Таблица */
+                        table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 14px; }
+                        th, td { border: 1px solid #ccc; padding: 8px 12px; text-align: center; }
+                        th { background: #eee; font-family: 'Inter', sans-serif; }
+                        td:first-child { text-align: left; font-weight: bold; font-family: 'Inter', sans-serif; }
+
+                        /* Чеклист */
+                        .checklist-section { margin-top: 10px; }
+                        .check-group-title { font-weight: bold; font-size: 13px; text-transform: uppercase; color: #06b6d4; margin-top: 15px; margin-bottom: 8px; font-family: 'Inter', sans-serif;}
+                        .check-row { display: flex; gap: 10px; margin-bottom: 6px; font-size: 14px; align-items: flex-start; }
+                        .check-box { font-family: 'Inter', sans-serif; font-size: 16px; line-height: 1; }
+
+                        /* Обязательство */
+                        .commit-box { border: 2px solid #333; padding: 25px; margin-top: 20px; border-radius: 8px; page-break-inside: avoid; }
+                        .commit-list { list-style: none; padding: 0; margin: 15px 0; }
+                        .commit-list li { margin-bottom: 8px; border-bottom: 1px dotted #ccc; padding-bottom: 2px; }
+                        .commit-val { font-weight: bold; font-family: 'Inter', sans-serif; }
+
+                        /* Разрывы страниц */
+                        .page-break { page-break-after: always; height: 1px; display: block; }
+                    </style>
+                </head>
+                <body>
+                    <div class="decor-bar"></div>
+                    <div class="page-container">
+                        <!-- HEADER -->
+                        <div style="text-align:center; margin-bottom: 40px;">
+                            <div style="font-weight:900; font-size:20px; letter-spacing:2px; font-family:'Inter', sans-serif;">BRIONEL</div>
+                            <h1>Практикум-Інтенсив 2.0</h1>
+                            <div class="subtitle">Мій особистий воркбук</div>
+                            <div class="subtitle">Формування наміру на 3 місяці</div>
+                            <div style="margin-top:10px; font-weight:bold; color: #4f46e5;">Початок: 04 лютого 2026</div>
+                            <div style="font-size: 24px; font-weight:bold; border-bottom: 2px solid #333; display:inline-block; margin-top:20px; padding: 0 20px 5px 20px; font-family: 'Inter', sans-serif;">
+                                ${name}
+                            </div>
+                        </div>
+
+                        <!-- SECTION 1 -->
+                        <h2>1. Головні питання</h2>
+                        <div class="q-block">
+                            <div class="q-label">📍 ЯКИЙ МІЙ НАМІР на 3 місяці?</div>
+                            <div class="q-answer">${getVal('q1')}</div>
+                        </div>
+                        <div class="q-block">
+                            <div class="q-label">💡 ДЛЯ ЧОГО Я В ПРОГРАМІ?</div>
+                            <div class="q-answer">${getVal('q2')}</div>
+                        </div>
+
+                        <!-- SECTION 2 -->
+                        <h2>2. Аналіз росту</h2>
+                        <div class="q-block">
+                            <div class="q-label">1. Що ви готові перестати робити?</div>
+                            <div class="q-answer">${getVal('q3')}</div>
+                        </div>
+                        <div class="q-block">
+                            <div class="q-label">2. 5 ключових факторів росту:</div>
+                            <div class="q-answer">${getVal('q4')}</div>
+                        </div>
+                        <div class="q-block">
+                            <div class="q-label">3. Що я ПЕРЕСТАНУ робити (пожирачі часу):</div>
+                            <div class="q-answer">${getVal('q5')}</div>
+                        </div>
+
+                        <!-- Разрыв страницы для аккуратности -->
+                        </div><div class="page-break"></div><div class="decor-bar"></div><div class="page-container">
+
+                        <div class="q-block">
+                            <div class="q-label">4. Що я ПОЧНУ робити (нові дії):</div>
+                            <div class="q-answer">${getVal('q6')}</div>
+                        </div>
+                        <div class="q-block">
+                            <div class="q-label">5. Джерело часу для нових дій:</div>
+                            <div class="q-answer">${getVal('q_time_source')}</div>
+                        </div>
+                        <div class="q-block">
+                            <div class="q-label">6. Інвестиція часу в бізнес (на день):</div>
+                            <div class="q-answer">${getVal('q_hours')}</div>
+                        </div>
+
+                        <!-- SECTION 3 -->
+                        <h2>3. План контенту (Instagram)</h2>
+                        <table>
+                            <tr><th>Тип</th><th>Зараз</th><th>План</th></tr>
+                            <tr><td>Reels</td><td>${getVal('reels_now')}</td><td>${getVal('reels_plan')}</td></tr>
+                            <tr><td>Stories</td><td>${getVal('stories_now')}</td><td>${getVal('stories_plan')}</td></tr>
+                            <tr><td>Post</td><td>${getVal('post_now')}</td><td>${getVal('post_plan')}</td></tr>
+                        </table>
+
+                        <!-- SECTION 4 -->
+                        <h2>4. Чек-лист</h2>
+                        <div class="checklist-section">
+                            <div class="check-group-title">Технічні завдання:</div>
+                            <div class="check-row"><span class="check-box">${getCheck('chk_tech1')}</span> ${getCheckLabel('chk_tech1')}</div>
+                            <div class="check-row"><span class="check-box">${getCheck('chk_tech2')}</span> ${getCheckLabel('chk_tech2')}</div>
+                            <div class="check-row"><span class="check-box">${getCheck('chk_tech3')}</span> ${getCheckLabel('chk_tech3')}</div>
+                            <div class="check-row"><span class="check-box">${getCheck('chk_tech4')}</span> ${getCheckLabel('chk_tech4')}</div>
+                            <div class="check-row"><span class="check-box">${getCheck('chk_tech5')}</span> ${getCheckLabel('chk_tech5')}</div>
+
+                            <div class="check-group-title">Додатково:</div>
+                            <div class="check-row"><span class="check-box">${getCheck('chk_add1')}</span> ${getCheckLabel('chk_add1')}</div>
+                            <div class="check-row"><span class="check-box">${getCheck('chk_add2')}</span> ${getCheckLabel('chk_add2')}</div>
+                            <div class="check-row"><span class="check-box">${getCheck('chk_add3')}</span> ${getCheckLabel('chk_add3')}</div>
+                            <div class="check-row"><span class="check-box">${getCheck('chk_add4')}</span> ${getCheckLabel('chk_add4')}</div>
+                        </div>
+
+                        <!-- SECTION 5 -->
+                        <h2>5. Фінальне зобов'язання</h2>
+                        <div class="commit-box">
+                            <p>Я, <strong>${name}</strong>, приймаю на себе зобов'язання за наступні 90 днів:</p>
+                            <ul class="commit-list">
+                                <li>Зробити контенту: <span class="commit-val">${getVal('c_content')}</span></li>
+                                <li>Провести зустрічей: <span class="commit-val">${getVal('c_meet')}</span></li>
+                                <li>Партнерів в команду: <span class="commit-val">${getVal('c_partners')}</span></li>
+                                <li>Вийти на чек: <span class="commit-val">$${getVal('c_check')}</span></li>
+                            </ul>
+                            <div style="margin-top:30px; display:flex; justify-content:space-between; align-items:flex-end;">
+                                <div>Дата: <strong>${document.getElementById('c_date').value}</strong></div>
+                                <div>Підпис: _______________________</div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="decor-bar"></div>
+                </body>
+                </html>
+            `;
+
+            // 2. Открываем окно
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write(printContent);
+            printWindow.document.close(); // Заканчиваем запись
+
+            // 3. Ждем загрузки шрифтов и контента, затем печатаем
+            // Небольшая задержка, чтобы стили успели примениться
+            setTimeout(() => {
+                printWindow.focus();
+                printWindow.print();
+            }, 500);
+        }
+
+        function getVal(id) {
+            const el = document.getElementById(id);
+            if (!el || !el.value.trim()) return '(пусто)';
+            return el.value.replace(/\n/g, '<br>');
+        }
+    </script>
+</body>
+</html>
